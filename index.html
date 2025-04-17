@@ -3,103 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Post Comments</title>
+    <style>
+        /* styles.css */
+:root {
+    --card-bg: #fff;
+    --card-border: #ddd;
+    --card-hover-bg: #f9f9f9;
+    --btn-bg: #4CAF50;
+    --btn-hover-bg: #45a049;
+    --btn-color: #fff;
+    --btn-border: none;
+    --padding: 1rem;
+    --heading-color: #333;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    
+    background-color: #f4f4f4;
+}
+
+#post-container   {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+#comments-container {
+
+    
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cards-holder {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    background-color: var(--card-hover-bg);
+}
+
+.card-body {
+    padding: var(--padding);
+    text-align: left;
+    position: relative;
+}
+
+.card-body p {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+#comment-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#commentContent {
+    width: 100%;
+    max-width: 600px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    resize: none;
+}
+
+#submitCommentBtn {
+    padding: 0.5rem 2rem;
+    background-color: var(--btn-bg);
+    color: var(--btn-color);
+    border: var(--btn-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submitCommentBtn:hover {
+    background-color: var(--btn-hover-bg);
+}
+
+.name{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 10px !important;
+    font-weight: 600;
+}
+
+    </style>
 </head>
 <body>
+    <div id="post-container">
+        <h1 style="text-align: center;" id="post-title"></h1>
+        <p id="post-content"></p>
+    </div>
+    <div id="comments-container">
+        <h2>Comments </h2>
+        <div id="comments-list" class="cards-holder"></div>
+        <div id="comment-form-container">
+            <h4>Post Comment : </h4>
     
-<h5 onclick="get_posts()">Click me..!</h5>
-    <div id="result"></div>
-    <div id="result_1"></div>
-    <div id="result_2"></div>
+    <textarea id="commentContent" rows="4" cols="50"></textarea>
+    <br>
+    <button id="submitCommentBtn">Submit Comment</button>
+        </div>
 
 
-    <script>
-        gets_status();
-        function gets_status(){
+        <br>
+    
 
-            fetch("http://127.0.0.1:8000/health/")
-            .then( res => res.json())
-            .then(js => {
-                console.log(js)
-            })
-            .catch()
+    <div class="status" id="statusResult"></div>
+    </div>
 
-            fetch("http://127.0.0.1:8000//readiness/")
-            .then( res => res.json())
-            .then(js => {
-                console.log(js)
-            })
-            .catch()
-
-        }
-
-
-        function get_posts(){
-
-
-            const postmans={
-                title:"lokesh Ragul_45",
-                content:"Some valueable content"
-            }
-            
-            fetch('http://127.0.0.1:8000/posts/',{
-                method:"POST",
-                headers:{
-                'Content-Type': 'application/json',
-                },
-                body:JSON.stringify(postmans)
-            })
-            .then( res => res.json())
-
-            .then(data => {
-                if(!data.access){
-                    console.log("successfuly added")
-                }
-            })
-            
-            .catch()
-
-
-
-            const a = document.getElementById('result');
-            fetch('http://127.0.0.1:8000/posts/')
-            .then(gh => gh.json())
-            .then(js => {
-                js.forEach( lk => {
-                    const postElement = document.createElement('div');
-                    postElement.classList.add('post');
-                    postElement.innerHTML =
-                    `<h6>${lk.title}</h6>`;
-
-                    a.appendChild(postElement);
-                })
-            })
-            .catch()
-
-
-
-            
-        }
-
-        get_id()
-        function get_id() {
-            const A = document.getElementById('result_1');
-            const B = document.getElementById('result_2');
-            fetch('http://127.0.0.1:8000/posts/22')
-            .then(res => res.json())
-            .then(data => {
-                A.innerText=data.title
-                B.innerText=data.content
-            })
-            .catch()
-            
-        }
-
-
-
-
-        
-
-    </script>
+    
+    
+    <script src="script.js"></script>
 </body>
 </html>
